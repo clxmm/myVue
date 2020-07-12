@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+       <div>{{msg}}</div> 
+        
+       <div v-if='score>90'>优秀</div>
+       <div v-else-if='score<90&&score>=80'>良好</div>
+       <div v-else-if='score<80&&score>=60'>一般</div>
+       <div v-else=>60一下</div>
+
+       <div v-show='flag'>v-show</div>
+       <button @click="handle">按钮</button>
+
+
+    </div>
+
+    <script src="../js/vue.js"></script>
+    <script type="text/javascript">
+
+    /*
+        分支结构
+    */
+    var vm  = new Vue({
+        el: '#app',
+        data: {
+            msg: "hello vue",
+            score: 10,
+            flag: true
+        },
+        methods: {
+            handle: function() {
+                this.flag = !this.flag
+            }
+            
+        }
+    })
+    </script>
+</body>
+</html>
+
+
+

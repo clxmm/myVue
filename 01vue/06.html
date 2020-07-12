@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="app">
+       <div>{{msg}}</div>
+       <div>{{num}}</div>
+       <div>
+           <button @click="num++">点击</button>
+           <button v-on:click="num++">点击</button>
+
+           <button v-on:click="handle">点击</button>
+           <button v-on:click="handle()">点击</button>
+       </div>
+       </div>
+    </div>
+
+    <script src="../js/vue.js"></script>
+    <script type="text/javascript">
+
+    var vm  = new Vue({
+        el: '#app',
+        data: {
+            msg: "hello vue",
+            num: 0
+        },
+        methods: {
+            handle: function() {
+                //这里的this 是vue的实例对象
+                console.log(this === vm)
+                this.num++;
+            }
+        }
+
+    })
+    </script>
+
+</body>
+</html>
+
+
+

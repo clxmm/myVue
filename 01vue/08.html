@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="app">
+       <div>{{num}}</div> 
+       <div @click="handel0">
+        <button v-on:click.stop="handle1">点击</button>
+       </div>
+       <div>
+           <a @click.prevent="handle2" href="www.baiduc.com">百度</a>
+       </div>
+    </div>
+
+    <script src="../js/vue.js"></script>
+    <script type="text/javascript">
+
+    /*
+    *   事件绑定 事件修饰符
+        
+    */
+    var vm  = new Vue({
+        el: '#app',
+        data: {
+            msg: "hello vue",
+            num: 0
+        },
+        methods: {
+            handel0: function() {
+                this.num++;
+            },
+            handle1: function(event) {
+                //,传统的方式，阻止冒泡
+                // event.stopPropagation();
+               
+            },
+            handle2: function(event) {
+                //阻止默认行为
+                // event.preventDefault();
+                console.log("阻止默认行为")
+            }
+        }
+
+    })
+    </script>
+
+</body>
+</html>
+
+
+

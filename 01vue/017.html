@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .active {
+            border: 1px solid red;
+            width: 100px;
+            height: 100px;
+        }
+        .error {
+            background-color: blue;
+        }
+        .test {
+            color: yellow;
+        }
+        .base {
+            font-size: 28px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+       <div>{{msg}}</div> 
+        <div :style="{border: borderStyle,width:widthStyle,height:heightStyle}"></div>
+        <button @click="handle">切换</button>
+        <div :style="[objStyle,overStyle]"></div>
+    </div>
+
+    <script src="../js/vue.js"></script>
+    <script type="text/javascript">
+
+    /*样式绑定 之内联样式style
+    */
+    var vm  = new Vue({
+        el: '#app',
+        data: {
+            msg: "hello vue",
+            borderStyle: '1px solid blue',
+            widthStyle: '100px',
+            heightStyle: '200px',
+            objStyle: {
+                border: '1px solid red',
+                width: '200px',
+                height: '100px'
+            },
+            overStyle: {
+                border:'2px solid yellow',
+                backgroundColor: 'red'
+            }
+        },
+        methods: {
+            handle: function() {
+               this.heightStyle='100px'
+               this.objStyle.width='100px'
+            }
+        }
+    })
+    </script>
+</body>
+</html>
+
+
+

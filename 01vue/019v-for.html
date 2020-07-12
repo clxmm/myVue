@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+       <div>{{msg}}</div> 
+       <div>水果列表</div>
+       <ul>
+           <li v-for='item in fruits'>{{item}}</li>
+           <li v-for='(item,index) in fruits'>{{item}}  -- {{index}}</li>
+           <li :key="item.id" v-for='item in myFruties'>{{item.ename}} -- {{item.cname}}-- {{item.id}} </li>
+       </ul>
+     
+    </div>
+
+    <script src="../js/vue.js"></script>
+    <script type="text/javascript">
+
+    /*
+    */
+    var vm  = new Vue({
+        el: '#app',
+        data: {
+            msg: "hello vue",
+            fruits: ['apple','orange','banana'],
+            myFruties: [{
+                ename:"apple",
+                cname:"苹果",
+                id:1
+            },{
+                ename:"orange",
+                cname:"橘子",
+                id:2
+            },{
+                ename:"banana",
+                cname:"香蕉",
+                id:3
+            }
+            ]
+        },
+        methods: {
+            
+        }
+    })
+    </script>
+</body>
+</html>
+
+
+

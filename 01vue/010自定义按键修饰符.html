@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="app">
+       <div>{{msg}}</div> 
+        <input type="text" @keyup="handle" v-model="info">
+        <input type="text" @keyup.65="handle" v-model="info">
+        <input type="text" @keyup.aa="handle" v-model="info">
+    </div>
+
+    <script src="../js/vue.js"></script>
+    <script type="text/javascript">
+
+    /*
+    *   事件绑定 -自定义按键修饰符
+        名字是自定义的，对应的值是按键对应的event.keyCode值
+        
+    */
+    Vue.config.keyCodes.aa = 65
+    var vm  = new Vue({
+        el: '#app',
+        data: {
+            msg: "hello vue",
+            info: 0
+        },
+        methods: {
+            handle: function(event) {
+                console.log(event.keyCode);
+
+            },
+            deleteAll: function() {
+                //按delete键清空用户名
+                this.username=""
+            }
+        }
+
+    })
+    </script>
+
+</body>
+</html>
+
+
+

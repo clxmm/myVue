@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .active {
+            border: 1px solid red;
+            width: 100px;
+            height: 100px;
+        }
+        .error {
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+       <div>{{msg}}</div> 
+      <div :class="[activeClass,errorClass]">
+          测试样式
+      </div>
+      <button @click="handel">切换</button>
+     
+    </div>
+
+    <script src="../js/vue.js"></script>
+    <script type="text/javascript">
+
+    /*样式绑定
+    */
+    var vm  = new Vue({
+        el: '#app',
+        data: {
+            msg: "hello vue",
+           activeClass: 'active',
+           errorClass: 'error'
+        },
+        methods: {
+            handel: function() {
+                //控制isActive的切换
+                this.activeClass = ""
+            }
+        }
+    })
+    </script>
+</body>
+</html>
+
+
+

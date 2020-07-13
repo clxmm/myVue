@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+       <div>{{msg}}</div> 
+       <span>
+           <input type="text" v-model='firstName'>
+       </span>
+       <span>
+           <input type="text" v-model='lastName'>
+       </span>
+       全名： <span>{{fullName}}</span>
+       <hr>
+
+       <div>
+            <span>用户名：</span>
+            <span>
+                <input type="text" v-model.lazy='uname'>
+            </span>
+            <span>{{tip}}</span>
+       </div>
+    </div>
+
+    <script src="../js/vue.js"></script>
+    <script type="text/javascript">
+
+    /*
+        验证用户名
+        1.使用侦听器监听用户名的变化
+        2.调用后天接口进行验证
+        3.根据验证结果调整提示信息
+    */
+    var vm  = new Vue({
+        el: '#app',
+        data: {
+            msg: "hello vue",
+            firstName: '',
+            lastName: '',
+            fullName: '',
+            uname:'',
+            tip:'',
+        },
+        methods: {
+            checkName: function(uanem) {
+                // 调用接口，可以使用定时任务的方式模拟接口调用
+                var that = this;
+                setTimeout(function() {
+                    //模拟接口调用
+                    if(uanem=='admin') {
+                        that.tip='用户名已存在'
+                    } else {
+                        that.tip='用户名通过'                    
+                    }
+                },2000)
+            }
+        },
+        watch: {
+            firstName: function(val) {
+                this.fullName = val+ this.lastName;
+            },
+            lastName: function(val) {
+                this.fullName = this.firstName +val;
+            },
+            uname: function(val) {
+                //调用后台接口，验证合法性1
+                this.checkName(val)
+
+                //修改提示信息
+                this.tip='正在验证'
+            }
+
+        }
+    })
+    </script>
+</body>
+</html>
+
+
+

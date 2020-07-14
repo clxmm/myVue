@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+       <div>{{msg}}</div> 
+       <ul>
+            <li :key='index' v-for='(item,index) in list'>{{item}}</li>
+        </ul>
+        <input type="text" v-model='fname'>
+        <button @click='add'>添加</button>  
+        <button @click='del'>删除</button>  
+        <button @click='change'>替换</button>  
+        <hr>
+        <div>
+            <div>{{info.name}}</div>
+            <div>{{info.age}}</div>
+            <div>{{info.gender}}</div>
+        </div>
+
+    </div>
+
+    <script src="../js/vue.js"></script>
+    <script type="text/javascript">
+
+    /*
+    变异方法和替换数组
+    修改响应式数据
+    */
+    var vm  = new Vue({
+        el: '#app',
+        data: {
+            msg: "hello vue",
+            list: ['apple','orange','banana'],
+            fname: '',
+            info: {
+                name: 'lisi',
+                age: 12
+            }
+        },
+        methods: {
+            add: function() {
+                this.list.push(this.fname);
+            },
+            del: function() {
+                this.list.pop();
+            },
+            change: function() {
+                this.list = this.list.slice(0,2);
+            }            
+        }
+    })
+    // Vue.set(vm.list,1,"222");
+    vm.$set(vm.list,2,"3333")
+    // vm.info.gender='male'  失败 不是响应式
+    vm.$set(vm.info,'gender','female')
+    </script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+       <div>{{msg}}</div> 
+       <menu-item menu-title='父组件传递数据'></menu-item>
+       <menu-item :menu-title='ptitle' content='hello' ></menu-item>
+     
+    </div>
+
+    <script src="../js/vue.js"></script>
+    <script type="text/javascript">
+
+    /*父组件向子组件传值
+    */
+    Vue.component('menu-item',{
+        props: ['menuTitle','content'],
+        data: function() {
+            return {
+                msg: '子组件本身的数据'
+            }
+        },
+        template: '<div>{{msg + "--"+ menuTitle +"---"+content}} <third-item :menuTitle="hello" ></third-item></div>'
+
+    });
+    Vue.component('third-item',{
+        props: ['menuTitle'],
+        data: function() {
+            return {
+                msg: '子组件本身的数据'
+            }
+        },
+        template: '<div>{{menuTitle}}</div>'
+
+    });
+    var vm  = new Vue({
+        el: '#app',
+        data: {
+            msg: "hello vue",
+            ptitle: '动态绑定属性',    
+        },
+        methods: {
+            
+        }
+    })
+    </script>
+</body>
+</html>
+
+
+

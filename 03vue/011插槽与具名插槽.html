@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+       <alert-box>密码错误</alert-box>
+       <alert-box></alert-box>
+
+
+       <hr>
+        <base-layout>
+            <p slot="header">标题信息</p>
+            <p>other</p>
+            <p>other1</p>
+            <p slot="footer">底部信息</p>
+        </base-layout>
+        <hr>
+        <base-layout>
+            <template slot="header">
+                <p>标题信息</p>
+                <p>标题信息2</p>
+            </template>
+            <p>other</p>
+            <p>other1</p>
+            <template slot="footer">
+                <p>底部信息</p>
+                <p>底部信息</p>
+            </template>
+        </base-layout>
+    </div>
+    <script src="../js/vue.js"></script>
+    <script type="text/javascript">
+
+    /*
+        插槽与具名插槽
+    */
+    //具名插槽
+    Vue.component('base-layout',{
+        data: function() {
+            return {
+                num: 0,
+            }
+        },
+        template: `
+        <div class="container">
+        <header>
+            <slot name="header"></slot>
+        </header>
+        <main>
+            <slot></slot>
+        </main>
+        <footer>
+            <slot name="footer"></slot>
+        </footer>
+        </div>
+        `,
+
+    });
+  
+    Vue.component('alert-box',{
+        data: function() {
+            return {
+                num: 0,
+            }
+        },
+        template: `
+            <div>
+                <div>Error: </div>
+                <slot>默认内容</slot>
+            </div>
+        `,
+
+    });
+   var vm  = new Vue({
+        el: '#app',
+        data: {
+            msg: "hello vue",
+            parray: ['apple','orange'],
+            fintSize: 10
+        },
+        methods: {
+            handle: function() {
+                hub.$off('menu-1-event');
+                hub.$off('menu-2-event');
+            }
+        }
+    })
+    </script>
+</body>
+</html>
+
+
+

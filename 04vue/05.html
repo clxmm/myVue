@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+      
+     
+    </div>
+
+    <script src="../js/vue.js"></script>
+    <script type="text/javascript">
+    /*
+        Promise api
+    */
+    function queryDate(url) {
+        return new Promise(function(resovle,reject){
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if(xhr.readyState != 4) return;
+                if(xhr.readyState == 4 && xhr.status == 200) {
+                    //处理正常的情况
+                    resovle(xhr.responseText);
+                } else{
+                    //异常情况
+                    reject('服务器错误1');
+                }
+            };
+            xhr.open('get',url);
+            xhr.send(null);
+
+        });
+    }
+
+    var p1 = queryDate("http://127.0.0.1:9009/hello/hello");
+    var p2 = queryDate("http://127.0.0.1:9009/hello/hello1");
+
+    // Promise.all([p1,p2]).then(function(result) {
+    //     console.log(result);
+    // })
+
+    Promise.race([p1,p2]).then(function(result) {
+        console.log(result);
+    })
+
+
+
+    </script>
+</body>
+</html>
+
+
+

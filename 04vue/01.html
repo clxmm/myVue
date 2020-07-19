@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+      
+     
+    </div>
+
+    <script src="../js/vue.js"></script>
+    <script type="text/javascript">
+    console.log(typeof Promise)
+    console.dir(Promise)
+
+    /*
+        Promise 的使用
+    */
+    var p = new Promise(function(resolve,reject){
+        //异步任务
+        setTimeout(function() {
+            var flag = false;
+            if(flag) {
+                //正常情况
+                resolve('hello')
+            } else{
+                reject('错错了');
+            }
+        })
+    });
+    p.then(function(data){
+        console.log(data);
+    },function(info) {
+        console.log(info)
+    }) 
+
+    </script>
+</body>
+</html>
+
+
+

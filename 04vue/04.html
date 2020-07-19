@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+      
+     
+    </div>
+
+    <script src="../js/vue.js"></script>
+    <script type="text/javascript">
+    /*
+        Promise api
+    */
+    function queryDate(url) {
+        return new Promise(function(resovle,reject){
+            setTimeout(function() {
+                // resovle("124")
+                reject("错误")
+            }, 1000)
+        });
+    }
+
+    // queryDate()
+    //     .then(function(data) {
+    //         console.log(data)
+    //     })
+    //     .catch(function(data) {
+    //         console.log(data)
+    //     })
+    //     .finally(function() {
+    //         console.log('finally');
+    //     });
+
+    queryDate()
+        .then(function(data) {
+            console.log(data)
+        },function(data) {
+            console.log(data)
+        })
+        .finally(function() {
+            console.log('finally');
+        });
+
+
+
+
+    </script>
+</body>
+</html>
+
+
+

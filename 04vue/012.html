@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+      
+     
+    </div>
+
+    <script src="../js/vue.js"></script>
+    <script src="../js/axios.js"></script>
+    <script type="text/javascript">
+    /*
+        axios  拦截器
+    */
+    axios.interceptors.request.use(config => {
+        // Do something before request is sent
+        console.log(config);
+        config.headers.mytoken = 'hell io';
+        return config;
+        },error => {
+        // Do something with request error
+        return Promise.reject(error);
+    });
+
+    axios.defaults.baseURL = 'http://127.0.0.1:9009/hello/'
+
+    axios.interceptors.response.use(response => {
+        console.log(response);
+        var data = response.data;
+        return data;
+    },error => {
+    // Do something with response error
+        return Promise.reject(error);
+    });
+
+
+    axios.post("booksJson",{
+        uname: 'yyy',
+        id: 111111
+    }).then(function(ret) {
+            console.log(ret);
+            // console.log(ret.data.uname);
+    });
+
+
+
+
+    </script>
+</body>
+</html>
+
+
+

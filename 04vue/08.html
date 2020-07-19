@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+      
+     
+    </div>
+
+    <script src="../js/vue.js"></script>
+    <script type="text/javascript">
+    /*
+        fetch api  响应处理
+    */
+
+
+   fetch('http://127.0.0.1:9009/hello/booksJson',{
+       method: 'post',
+       body: JSON.stringify({
+            uname: 'shangs',
+            pwd: '1236'
+       }),
+       headers: {
+        'Content-Type': 'application/json'
+       }
+   }).then(function(data){
+       return data.json();
+   }).then(function(data){
+       console.log(data)
+       console.log(data.uname)
+   })
+
+
+   //put
+//    fetch('http://127.0.0.1:9009/hello/books/123',{
+//        method: 'put',
+//        body: JSON.stringify({
+//             uname: 'shangs',
+//             pwd: '1236111'
+//        }),
+//        headers: {
+//         'Content-Type': 'application/json'
+//        }
+//    }).then(function(data){
+//        return data.text();
+//    }).then(function(data){
+//        console.log(data)
+//    })
+
+
+
+    </script>
+</body>
+</html>
+
+
+

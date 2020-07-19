@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+      
+     
+    </div>
+
+    <script src="../js/vue.js"></script>
+    <script type="text/javascript">
+    /*
+        Promise发送ajax
+    */
+    function queryDate(url) {
+        var p = new Promise(function(resovle,reject){
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if(xhr.readyState != 4) return;
+                if(xhr.readyState == 4 && xhr.status == 200) {
+                    //处理正常的情况
+                    resovle(xhr.responseText);
+                } else{
+                    //异常情况
+                    reject('服务器错误1');
+                }
+            };
+            xhr.open('get',url);
+            xhr.send(null);
+
+        });
+        return p;
+    }
+
+    queryDate('http://127.0.0.1:9009/hello/hello')
+        .then(function(data) {
+            console.log(data);
+        },function(info) {
+            console.log(info);
+    })
+
+
+    //发送多个请求,并保证顺序
+    queryDate('http://127.0.0.1:9009/hello/hello1')
+        .then(function(data){
+            console.log(data);
+            // 想要继续链式编程下去 需要 return 
+            return queryDate('http://127.0.0.1:9009/hello/hello1');
+        })
+        .then(function(data) {
+            console.log(data);
+            return queryDate('http://127.0.0.1:9009/hello/hello');
+        })
+        .then(function(data) {
+            console.log(data)
+        })
+
+
+
+    </script>
+</body>
+</html>
+
+
+

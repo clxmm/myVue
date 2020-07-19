@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+      
+     
+    </div>
+
+    <script src="../js/vue.js"></script>
+    <script src="../js/axios.js"></script>
+    <script type="text/javascript">
+    /*
+        axios api 
+    */
+    axios.get("http://127.0.0.1:9009/hello/hello")
+        .then(function(ret) {
+            //data属性是固定的
+            // console.log(ret.data);
+        })
+
+    //get
+    axios.get("http://127.0.0.1:9009/hello/books?id=123")
+        .then(function(ret) {
+            // console.log(ret.data);
+        })
+
+    axios.get("http://127.0.0.1:9009/hello/books/123")
+        .then(function(ret) {
+            // console.log(ret.data);
+        });
+
+
+    axios.get("http://127.0.0.1:9009/hello/books",{
+        params: {
+            id: 456
+        }
+    }).then(function(ret) {
+            // console.log(ret.data);
+    });
+    //delete
+
+    axios.delete("http://127.0.0.1:9009/hello/books1",{
+        params: {
+            id: 111111
+        }
+    }).then(function(ret) {
+            // console.log(ret.data);
+    });
+
+
+    //post 
+    axios.post("http://127.0.0.1:9009/hello/booksJson",{
+        uname: 'yyy',
+        id: 111111
+    }).then(function(ret) {
+            // console.log(ret.data);
+    });
+
+
+    const pa = new URLSearchParams();
+    pa.append('uname','tom');
+    pa.append('pwd',123);
+    axios.post("http://127.0.0.1:9009/hello/books",pa).then(function(ret) {
+            // console.log(ret.data);
+    });
+
+    // put
+    axios.put("http://127.0.0.1:9009/hello/books/12",{
+        uname: 'yyy',
+        id: 111111
+    }).then(function(ret) {
+            console.log(ret.data);
+    });
+
+
+
+    </script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style type="text/css">
+        .grid {
+        margin: auto;
+        width: 530px;
+        text-align: center;
+        }
+        .grid table {
+        border-top: 1px solid #C2D89A;
+        width: 100%;
+        border-collapse: collapse;
+        }
+        .grid th,td {
+        padding: 10;
+        border: 1px dashed #F3DCAB;
+        height: 35px;
+        line-height: 35px;
+        }
+        .grid th {
+        background-color: #F3DCAB;
+        }
+        .grid .book {
+        padding-bottom: 10px;
+        padding-top: 5px;
+        background-color: #F3DCAB;
+        }
+        .grid .total {
+        height: 30px;
+        line-height: 30px;
+        background-color: #F3DCAB;
+        border-top: 1px solid #C2D89A;
+        }
+      </style>
+</head>
+<body>
+    <div id="app">
+    <div class="grid">
+        <div>
+            <h1>图书管理</h1>
+            <div class="book">
+                <label for="id">编号</label>
+                <input type="text" id="id" v-model='id' disabled='false'>
+                <label for="name">名称</label>
+                <input type="text" id="name" v-model='name' v-focus>
+                <button @click='handle' :disabled='submitFlag'>提交</button>
+            </div>
+        </div>
+        <div class="total">
+            <span>图书总数：</span>
+            <span>{{total}}</span>
+          </div>
+       <table>
+        <thead>
+          <tr>
+            <th>编号</th>
+            <th>名称</th>
+            <th>时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr v-for='(item,index) in books'>
+                <td>{{item.id}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.date | format('yyyy-MM-dd hh:mm:ss')}}</td>
+                <td>
+                    <a href="" @click.prevent='toEdit(item.id)'>修改</a>
+                    <span>|</span>
+                    <a href="" @click.prevent='deleteBook(item.id)'>删除</a>
+                </td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
+    </div>
+
+    <script src="../js/vue.js"></script>
+    <script src="../js/axios.js"></script>
+    <script type="text/javascript">
+
+
+    axios.defaults.baseURL='http://127.0.0.1:9009/'; 
+
+    //axios 的响应拦截器
+    axios.interceptors.response.use(response => {
+      console.log(response.data);
+      return response.data;
+    },error => {
+      console.log(error);
+    });
+
+    /* 图书管理--基于接口的形式
+    */
+    //自定义指令
+    Vue.directive('focus', {
+      inserted: function (el) {
+        el.focus();
+      }
+    });
+    //过滤器
+    Vue.filter('format', function(value, arg) {
+      function dateFormat(date, format) {
+        if (typeof date === "string") {
+          var mts = date.match(/(\/Date\((\d+)\)\/)/);
+          if (mts && mts.length >= 3) {
+            date = parseInt(mts[2]);
+          }
+        }
+        date = new Date(date);
+        if (!date || date.toUTCString() == "Invalid Date") {
+          return "";
+        }
+        var map = {
+          "M": date.getMonth() + 1, //月份 
+          "d": date.getDate(), //日 
+          "h": date.getHours(), //小时 
+          "m": date.getMinutes(), //分 
+          "s": date.getSeconds(), //秒 
+          "q": Math.floor((date.getMonth() + 3) / 3), //季度 
+          "S": date.getMilliseconds() //毫秒 
+        };
+        format = format.replace(/([yMdhmsqS])+/g, function(all, t) {
+          var v = map[t];
+          if (v !== undefined) {
+            if (all.length > 1) {
+              v = '0' + v;
+              v = v.substr(v.length - 2);
+            }
+            return v;
+          } else if (t === 'y') {
+            return (date.getFullYear() + '').substr(4 - all.length);
+          }
+          return all;
+        });
+        return format;
+      }
+      return dateFormat(value, arg);
+    });
+    var vm  = new Vue({
+        el: '#app',
+       
+        data: {
+            msg: "hello vue",
+            id: '',
+            name: '',
+            flag: false,
+            // total: '',
+            submitFlag: false,
+            books: [],
+
+        },
+        methods: {
+            handle: async function() {
+
+                if(this.flag) {
+                    //编辑 ，
+                    const ret = await axios.put("books/",{
+                      id: this.id,
+                      name: this.name
+                    });
+
+                    this.flag = false;
+                    this.querydata();
+                } else {
+                    //添加
+                    
+                    //添加图书
+                    var ret = await axios.post("books/",{
+                      name: this.name
+                    });
+
+                    if(ret.code == 200) {
+                      //重新加载列表数据
+                      this.querydata();
+                    }
+                }
+
+                //清空表单
+                this.id = '';
+                this.name = '';
+
+            },
+            toEdit: async function(id) {
+                //点击修改时，禁止修改id
+                this.flag = true;
+                this.submitFlag = true;
+                const ret =  await axios.get('books/getNameById?id='+id);
+                console.log(ret)
+                this.id = ret.id;
+                this.name = ret.name;
+
+            },
+            //删除图书
+            deleteBook: async function(id) {
+                //根据id在数组中查找索引
+                // var index = this.books.findIndex((item) => {
+                //         return item.id == id;
+                //     })
+                // this.books.splice(index,1);
+
+                //-----
+                //方法二：通过filter去删除
+                // this.books = this.books.filter((item) => {
+                //     return item.id != id;
+                // })
+                  var int = await axios.delete("books/"+id);
+
+                  this.querydata();
+
+            },
+            querydata: async function() {
+              //调用后天接口，获取图书列表数据
+              // var ret = await axios.get('books/');
+              // this.books = ret.data;
+              this.books = await axios.get('books/');
+            }
+        },
+        computed: {
+            total: function(){
+                //计算图书总数
+                return this.books.length;
+            }
+        },
+        watch: {
+            name: async function(val) {
+                //验证图书名称是否已经存在
+                const ret = await axios.get("books/"+this.name);
+
+                console.log("ret"+ret)
+                if(ret == 1) {
+                  this.submitFlag = false;
+                } else {
+                  this.submitFlag = true;
+                }
+
+
+            }
+        },
+        mounted: function() {
+            // axios.get('books/')
+            // .then(res => {
+            //   console.log(res)
+            //   this.books = res.data;
+            // })
+          this.querydata();
+        }
+    })
+    </script>
+</body>
+</html>
+
+
+
